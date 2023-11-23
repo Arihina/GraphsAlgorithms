@@ -8,11 +8,13 @@ typedef vector<vector<double>> matrix;
 matrix fillRandomMatrix(int);
 void printMatrix(matrix);
 void primaKraskalaAlgorithm();
+void dijkstraAlgorithm();
 
 
 void main()
 {
-	primaKraskalaAlgorithm();
+	// primaKraskalaAlgorithm(); 
+	dijkstraAlgorithm();
 }
 
 
@@ -24,7 +26,7 @@ matrix fillRandomMatrix(int size) {
 		vector<double> row(size, 0);
 		for (int j = 0; j < size; j++)
 		{
-			double num = (double)(rand() % 101);
+			double num = (double)(rand() % 10);
 			if (i < j)
 			{
 				row[j] = num;
@@ -57,6 +59,7 @@ void printMatrix(matrix matrix) {
 		cout << endl;
 	}
 }
+
 
 void primaKraskalaAlgorithm() {
 
@@ -120,4 +123,77 @@ void primaKraskalaAlgorithm() {
 	delete[] colorsArray;
 	delete[] resultArray1;
 	delete[] resultArray2;
+}
+
+
+void dijkstraAlgorithm() {
+	cout << "Enter a size of path matrix ";
+	int size;
+	cin >> size;
+
+	matrix loadMatrix = fillRandomMatrix(size);
+
+	cout << "Load matrix" << endl;
+	printMatrix(loadMatrix);
+
+	int* consideredNodesArray = new int[size];
+	double* distancesArray = new double[size];
+	int* nodeNumbersArray = new int[size];
+
+	cout << "Enter a start node ";
+	int startNode;
+	cin >> startNode;
+
+	for (int i = 0; i < size; i++)
+	{
+		consideredNodesArray[i] = 0;
+		nodeNumbersArray[i] = startNode;
+		distancesArray[i] = loadMatrix[startNode][i];
+	}
+	consideredNodesArray[startNode] = 1;
+	nodeNumbersArray[startNode] = 0;
+
+	int index = 0;
+	for (int i = 0; i < size - 1; i++)
+	{
+		double minLength = DBL_MAX;
+		for (int j = 0; j < size; j++)
+		{
+			if (consideredNodesArray[j] == 0 &&
+				distancesArray[j] < minLength)
+			{
+				index = j;
+				minLength = distancesArray[j];
+			}
+		}
+		cout << "min length = " << minLength << " for node = " << index << endl;
+		consideredNodesArray[index] = 1;
+
+		for (int j = 0; j < size; j++)
+		{
+			if (distancesArray[j] > distancesArray[index] + loadMatrix[index][j])
+			{
+				distancesArray[j] = distancesArray[index] + loadMatrix[index][j];
+				cout << j << " " << distancesArray[j] << endl;
+				nodeNumbersArray[j] = index;
+			}
+		}
+
+		int temp = 0;
+		for (int j = 0; j < size; j++)
+		{
+			temp = nodeNumbersArray[j];
+			cout << "node number = " << j << ": ";
+			while (temp != 0)
+			{
+				cout << temp << " ";
+				temp = nodeNumbersArray[temp];
+			}
+			cout << endl;
+		}
+	}
+
+	delete[] consideredNodesArray;
+	delete[] distancesArray;
+	delete[] nodeNumbersArray;
 }
