@@ -13,8 +13,49 @@ void dijkstraAlgorithm();
 
 void main()
 {
-	// primaKraskalaAlgorithm(); 
-	dijkstraAlgorithm();
+	while (true)
+	{
+		cout << "Select function " << endl;
+		cout << "1 - Prima Kraskala algorithm" << endl;
+		cout << "2 - Dijkstra algorithm" << endl;
+		cout << "0 - Exit" << endl;
+		char select;
+		cin >> select;
+		if (select == '1')
+		{
+			try
+			{
+				primaKraskalaAlgorithm();
+			}
+			catch (const exception& ex)
+			{
+				cout << ex.what() << endl;
+				continue;
+			}
+		}
+		else if (select == '2')
+		{
+			try 
+			{
+				dijkstraAlgorithm();
+			}
+			catch (const exception& ex)
+			{
+				cout << ex.what() << endl;
+				continue;
+			}
+		}
+		else if (select == '0')
+		{
+			cout << "Exit";
+			break;
+		}
+		else
+		{
+			cout << "Invalid input" << endl;
+		}
+		cout << endl;
+	}
 }
 
 
